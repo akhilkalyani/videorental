@@ -1,5 +1,6 @@
 package com.crio.videorental.security;
 
+import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/customer/**").hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(new JwtRequestFilter(), (Class<? extends Filter>) SecurityFilterChain.class)
                 .httpBasic();
 
         return http.build();
